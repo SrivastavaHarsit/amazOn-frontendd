@@ -105,6 +105,7 @@ document.querySelectorAll('.js-delete-link')
         const productId = link.dataset.productId;
         removeFromCart(productId);
         
+        // jaha ye product render ho rha hai wo poora container utha lo aur fir hata do dom.remove() se
         const container = document.querySelector(
           `.js-cart-item-container-${productId}`
         )
