@@ -38,6 +38,7 @@
 // }];
 
 import { cart } from '../data/cart.js';
+import { products } from '../data/products.js'
 //loop through array and render HTML
 let productsHTML = ``;
 products.forEach((product) => {
