@@ -37,7 +37,7 @@
 //     priceCents: 1899
 // }];
 
-import { cart } from '../data/cart.js';
+import { cart, addToCart } from '../data/cart.js';
 import { products } from '../data/products.js'
 //loop through array and render HTML
 let productsHTML = ``;
@@ -102,37 +102,25 @@ products.forEach((product) => {
 document.querySelector('.js-products-grid').
 innerHTML = productsHTML;
 
+// we will not shift this function to cart.js because it is rendering to the page we want to keep it in main js file
+function updateCartQuantity() {
+    let cartQuantity = 0;
+       cart.forEach((cartItem) =>{
+        cartQuantity += cartItem.quantity;
+       });
+
+       document.querySelector('.js-cart-quantity')
+       .innerHTML = cartQuantity;
+};
+
 // saare add to cart button par event listner lagayenge
 document.querySelectorAll('.js-add-to-cart')
 .forEach((button) =>{
     button.addEventListener('click', () => {
         // .dataset gives/fetches all data attributes of the HTML element (note that in html i was storing product-name as a data attribute but to retrieve it we are using camelCase notation)
-       const productId = button.dataset.productId;
-
-       //check if productName is already in the cart
-       let matchingItem;
-       cart.forEach((item) =>{
-        if(productId===item.productId) {
-            matchingItem = item;
-        }
-       });
-       // if already present just increase the quantity
-       if(matchingItem) {
-        matchingItem.quantity++;
-       }
-       // else add that item as an object in the cart array
-       else {
-        cart.push({
-            productId,
-            quantity: 1
-           })
-       }
-       let cartQuantity = 0;
-       cart.forEach((item) =>{
-        cartQuantity += item.quantity;
-       });
-
-       document.querySelector('.js-cart-quantity')
-       .innerHTML = cartQuantity;
+    const productId = button.dataset.productId;
+    addToCart(productId);
+    updateCartQuantity()
     });
 });
+           
