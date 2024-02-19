@@ -86,15 +86,46 @@ products.forEach((product) => {
                 Added
             </div>
 
-            <button class="add-to-cart-button button-primary">
+            <button class="add-to-cart-button button-primary js-add-to-cart"
+            data-product-id="${product.id}">
                 Add to Cart
             </button>
         </div>
     `;
 });
 
-console.log(productsHTML);
+// console.log(productsHTML);
 
 // Now we will render this whole HTML string to page using DOM
 document.querySelector('.js-products-grid').
 innerHTML = productsHTML;
+
+// saare add to cart button par event listner lagayenge
+document.querySelectorAll('.js-add-to-cart')
+.forEach((button) =>{
+    button.addEventListener('click', () => {
+        // .dataset gives/fetches all data attributes of the HTML element (note that in html i was storing product-name as a data attribute but to retrieve it we are using camelCase notation)
+       const productId = button.dataset.productId;
+
+       //check if productName is already in the cart
+       let matchingItem;
+       cart.forEach((item) =>{
+        if(productId===item.productId) {
+            matchingItem = item;
+        }
+       });
+       // if already present just increase the quantity
+       if(matchingItem) {
+        matchingItem.quantity++;
+       }
+       // else add that item as an object in the cart array
+       else {
+        cart.push({
+            productId,
+            quantity: 1
+           })
+       }
+       
+       console.log(cart);
+    });
+});
